@@ -18,6 +18,7 @@ class UserManager(BaseUserManager):
             last_name = last_name,
         )
         user.set_password(password)
+        user.is_active = True
         user.save(using=self._db) 
         return user
     
@@ -28,6 +29,7 @@ class UserManager(BaseUserManager):
             first_name = first_name,
             last_name = last_name,
         )
+        user.set_password(password)
         user.is_admin = True
         user.is_active = True
         user.is_staff = True
@@ -36,10 +38,10 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    RESTAURANT = 1
+    VENDOR = 1
     CUSTOMER = 2
     ROLE_CHOICE = (
-        (RESTAURANT, 'Restaurant'),
+        (VENDOR, 'Vendor'),
         (CUSTOMER, 'Customer')
     )
     first_name = models.CharField(max_length=50)
@@ -72,6 +74,14 @@ class User(AbstractBaseUser):
     
     def has_module_perms(self, app_label):
         return True
+    
+    def get_role(self):
+        if self.role == 1:
+            user_role = 'Vendor'
+        # elif self.role == 2:
+        else:
+            user_role = 'Customer'
+        return user_role
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
