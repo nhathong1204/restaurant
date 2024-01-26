@@ -4,12 +4,28 @@ from accounts.utils import detectUser
 from .models import User, UserProfile
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 
-# Create your views here.
+# Restrict the vendor from accessing the customer page 
+def check_role_vendor(user):
+    if user.role == 1:
+        return True
+    else:
+        raise PermissionDenied
+
+# Restrict the customer from accessing the vendor page 
+def check_role_customer(user):
+    if user.role == 2:
+        return True
+    else:
+        raise PermissionDenied
+
+
 def registerUser(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect('customerDashboard')
     form = UserForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -39,7 +55,7 @@ def registerUser(request):
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect('customerDashboard')
     if request.method == 'POST':
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
@@ -74,7 +90,7 @@ def login_view(request):
     form = UserLoginForm(request.POST or None)
     if request.user.is_authenticated:
         messages.warning(request, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect('myAccount')
     if form.is_valid():
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
@@ -85,7 +101,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "Your are now logged in")
-                return redirect('dashboard')
+                return redirect('myAccount')
             else:
                 messages.warning(request, f"User does not exist. Create an account.")
         except:
@@ -100,10 +116,18 @@ def logout_view(request):
     messages.info(request, 'Your are now logged out.')
     return redirect('login')
 
-def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
-
+@login_required(login_url='login')
 def myAccount(request):
     user = request.user
     redirectUrl = detectUser(user)
     return redirect(redirectUrl)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_customer)
+def customerDashboard(request):
+    return render(request, 'accounts/customerDashboard.html')
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def vendorDashboard(request):
+    return render(request, 'accounts/vendorDashboard.html')

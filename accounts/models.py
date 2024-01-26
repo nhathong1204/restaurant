@@ -59,7 +59,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    is_superadmin = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
@@ -78,8 +78,8 @@ class User(AbstractBaseUser):
     def get_role(self):
         if self.role == 1:
             user_role = 'Vendor'
-        # elif self.role == 2:
-        else:
+        elif self.role == 2:
+        # else:
             user_role = 'Customer'
         return user_role
     

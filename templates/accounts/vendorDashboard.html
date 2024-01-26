@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>welcome {{ user.username }}</h1>
+    <p>This is {{ user.get_role }}</p>
+{% endblock content %}
