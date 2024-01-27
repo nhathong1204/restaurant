@@ -1,4 +1,3 @@
-from typing import Any
 from django import forms
 from vendor.models import Vendor
 from .models import User
@@ -30,7 +29,7 @@ class UserLoginForm(forms.Form):
         if email and password:
             user = authenticate(email=email, password=password)
             if not user:
-                raise forms.ValidationError('User is not a valid user')
+                raise forms.ValidationError('User or password is incorrect')
             if not user.check_password(password):
                 raise forms.ValidationError('Password is incorrect')
             if not user.is_active:
