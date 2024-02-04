@@ -61,6 +61,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'accounts.context_processors.get_vendor',
+                'accounts.context_processors.get_google_api',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -69,6 +71,7 @@ TEMPLATES = [
         },
     },
 ]
+FILE_UPLOAD_HANDLERS = ['django.core.files.uploadhandler.TemporaryFileUploadHandler',]
 
 WSGI_APPLICATION = 'restaurant.wsgi.application'
 
@@ -149,3 +152,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <django.foodonline@gmail.com>'
+
+GOOGLE_API_KEY = 'AIzaSyD6z6BqP3ST-NEhyjGTbd4SAzbXczw3DGc'

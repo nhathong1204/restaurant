@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = ()
     
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'address_line_1', 'longitude', 'latitude', 'created_at')
+    list_display = ('user', 'address', 'longitude', 'latitude', 'created_at')
     
     
 admin.site.register(User, CustomUserAdmin)
