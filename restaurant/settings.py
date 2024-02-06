@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'vendor',
+    'menu',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +156,20 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <django.foodonline@gmail.com>'
 
 GOOGLE_API_KEY = 'AIzaSyD6z6BqP3ST-NEhyjGTbd4SAzbXczw3DGc'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'codeSnippet_theme': 'pojoaque',
+        'toolbar': 'all',
+        'extraPlugins': ', '.join(
+            [
+                'codesnippet',
+                'widget',
+                'dialog',
+            ]
+        )
+    }
+}

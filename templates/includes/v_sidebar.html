@@ -4,9 +4,10 @@
              
             {% url 'vendor' as url_vendor %}
             {% url 'vendor_profile' as url_vendor_profile %}
+            {% url 'menu_builder' as url_menu_builder %}
             <li {% if request.path == url_vendor %}class="active"{% endif %} ><a href="{{ url_vendor }}"><i class="icon-dashboard3"></i>Dashboard</a></li>
             <li {% if request.path == url_vendor_profile %}class="active"{% endif %}><a href="{{ url_vendor_profile }}"><i class="icon-building"></i>My Restaurant</a></li>
-            <li><a href="restaurant-menu-builder.html"><i class="icon-menu5"></i>Menu Builder</a></li>
+            <li {% if request.path == url_menu_builder %}class="active"{% endif %}><a href="{{ url_menu_builder }}"><i class="icon-menu5"></i>Menu Builder</a></li>
             <li><a href="restaurant-orders.html"><i class="icon-add_shopping_cart"></i>Orders</a></li>
             <li><a href="restaurant-earnings.html"><i class="icon-money"></i>Earnings</a></li>
             <li><a href="restaurant-statement.html"><i class="icon-file-text22"></i>Statement</a></li>
